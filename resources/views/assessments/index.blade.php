@@ -3,7 +3,7 @@
 @section('title', 'Assessments')
 
 @section('content')
-<div class="flex-1 p-2">
+<div class="flex-1 p-6">
     <!-- Header -->
     <div class=" items-center mb-4">
         <div>
