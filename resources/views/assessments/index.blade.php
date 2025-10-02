@@ -78,7 +78,7 @@
     <div class="flex flex-col h-full">
         <!-- Modal Header -->
         <div class="flex items-center justify-between p-6 border-b">
-            <h2 class="text-xl font-semibold text-gray-800">Create New Assessment</h2>
+            <h2 class="text-xl font-semibold text-gray-800">Buat Asesmen Baru</h2>
             <button onclick="closeCreateModal()" class="text-gray-500 hover:text-gray-700">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -88,45 +88,38 @@
         
         <!-- Modal Body -->
         <div class="flex-1 overflow-y-auto p-6">
-            <form id="createAssessmentForm" action="{{ route('assessments.store') }}" method="POST" class="space-y-6">
+            <form id="createAssessmentForm" action="{{ route('assessments.store') }}" method="POST" class="space-y-4">
                 @csrf
                 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Assessment Title *</label>
-                    <input type="text" name="title" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter assessment title">
+                    <label class="block text-sm font-medium text-gray-700 -mt-2 mb-2">Judul Asesmen *</label>
+                    <input type="text" name="title" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Masukkan judul assessment">
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                    <textarea name="description" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter assessment description"></textarea>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                    <textarea name="description" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Masukkan deskripsi assessment"></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Assessment Type</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tipe Asesmen</label>
                     <select name="type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Select Type</option>
-                        <option value="technical">Technical</option>
-                        <option value="personality">Personality</option>
-                        <option value="cognitive">Cognitive</option>
+                        <option value="">Pilih Tipe</option>
+                        <option value="technical">Teknis</option>
+                        <option value="personality">Kepribadian</option>
+                        <option value="cognitive">Kognitif</option>
                     </select>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Durasi (menit)</label>
                         <input type="number" name="duration" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="60">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Questions Count</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Pertanyaan</label>
                         <input type="number" name="questions_count" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="10">
                     </div>
-                </div>
-
-                <div>
-                    <label class="flex items-center">
-                        <input type="checkbox" name="is_active" value="1" checked class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                        <span class="ml-2 text-sm text-gray-700">Active</span>
-                    </label>
                 </div>
 
                 <div>
