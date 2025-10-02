@@ -11,7 +11,7 @@
             width: 4rem !important;
         }
         .sidebar-expanded {
-            width: 16rem !important;
+            width: 14rem !important;
         }
         .sidebar-transition {
             transition: all 0.3s ease-in-out;
