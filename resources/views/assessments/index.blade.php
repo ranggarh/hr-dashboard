@@ -32,23 +32,74 @@
 
     <!-- Content Area -->
     @if(count($assessments) > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="space-y-4">
             @foreach($assessments as $assessment)
-                <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow cursor-pointer" 
+                     onclick="window.location.href='{{ route('assessments.show', $assessment) }}'">
+                    <div class="flex items-center justify-between">
+                        <!-- Left Side - Icon and Content -->
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h3 class="text-lg font-semibold text-gray-900">{{ $assessment->title }}</h3>
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                                        {{ $assessment->is_active ? 'Active' : 'Inactive' }}
+                                    </span>
+                                    @if($assessment->type)
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full capitalize">
+                                            {{ $assessment->type }}
+                                        </span>
+                                    @endif
+                                </div>
+                                <p class="text-gray-600 text-sm mb-2">{{ $assessment->description ?: 'Tidak ada deskripsi' }}</p>
+                                <div class="flex items-center text-xs text-gray-500 space-x-4">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        {{ $assessment->questions_count }} pertanyaan
+                                    </span>
+                                    @if($assessment->duration)
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            {{ $assessment->duration }} menit
+                                        </span>
+                                    @endif
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        {{ $assessment->created_at->format('d M Y') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Side - Actions -->
+                        <div class="flex items-center space-x-2">
+                            <button onclick="event.stopPropagation(); window.location.href='{{ route('assessments.edit', $assessment) }}'" 
+                                    class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteAssessment({{ $assessment->id }})" 
+                                    class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
                         </div>
-                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
-                    </div>
-                    <h3 class="font-semibold text-gray-900 mb-2">{{ $assessment->title }}</h3>
-                    <p class="text-gray-600 text-sm mb-4">{{ $assessment->description }}</p>
-                    <div class="flex items-center text-xs text-gray-500">
-                        <span>{{ $assessment->questions_count }} questions</span>
-                        <span class="mx-2">•</span>
-                        <span>{{ $assessment->duration }} minutes</span>
                     </div>
                 </div>
             @endforeach
@@ -65,7 +116,12 @@
             <p class="text-gray-600 mb-8 max-w-md mx-auto">
                 Mulai dengan membuat assessment pertama Anda untuk mengevaluasi kandidat dengan lebih baik.
             </p>
-           
+            <button onclick="openCreateModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg inline-flex items-center space-x-2 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span>Buat Assessment Pertama</span>
+            </button>
         </div>
     @endif
 </div>
@@ -169,6 +225,20 @@ function closeCreateModal() {
     
     // Reset form
     document.getElementById('createAssessmentForm').reset();
+}
+
+function deleteAssessment(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus assessment ini?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/assessments/${id}`;
+        form.innerHTML = `
+            @csrf
+            @method('DELETE')
+        `;
+        document.body.appendChild(form);
+        form.submit();
+    }
 }
 
 // Close modal when clicking overlay
