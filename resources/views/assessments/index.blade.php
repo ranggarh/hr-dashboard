@@ -133,7 +133,7 @@
                                             Kelola User
                                         </button>
                                         <button
-                                            onclick="event.stopPropagation(); window.location.href='/'"
+                                            onclick="event.stopPropagation(); window.location.href='{{ route('questions.index', $assessment->id) }}'"
                                             class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-b-lg">
                                             <x-lucide-file-plus class="w-4 h-4 inline mr-2 -mt-1" />
                                             Kelola Soal

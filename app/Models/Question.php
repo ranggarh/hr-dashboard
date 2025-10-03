@@ -14,7 +14,8 @@ class Question extends Model
         'question_text',
         'question_type',
         'is_required',
-        'order'
+        'order',
+        'image'
     ];
 
     protected $casts = [

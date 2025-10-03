@@ -14,6 +14,11 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::resource('assessments', AssessmentController::class);
 
 // Question Routes
+Route::get('/assessments/{assessment}/questions', [QuestionController::class, 'index'])->name('questions.index');
 Route::post('/assessments/{assessment}/questions', [QuestionController::class, 'store'])->name('questions.store');
+Route::put('/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
+Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
+
+
 Route::put('/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
 Route::delete('/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
