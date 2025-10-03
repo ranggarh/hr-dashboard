@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\ManagedUserController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -30,3 +30,9 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('register', [AuthController::class, 'register']);
+
+Route::prefix('assessments/{assessment}/managed-users')->group(function () {
+    Route::get('/', [ManagedUserController::class, 'index'])->name('managed-users.index');
+    Route::get('/create', [ManagedUserController::class, 'create'])->name('managed-users.create');
+    Route::post('/', [ManagedUserController::class, 'store'])->name('managed-users.store');
+});

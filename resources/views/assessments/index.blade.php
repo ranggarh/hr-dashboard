@@ -127,7 +127,7 @@
                                     <div
                                         class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg hidden z-50">
                                         <button
-                                            onclick="event.stopPropagation(); window.location.href='/'"
+                                            onclick="event.stopPropagation(); window.location.href='{{ route('managed-users.index', $assessment->id) }}'"
                                             class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-t-lg">
                                             <x-lucide-user-round-plus class="w-4 h-4 inline mr-2 -mt-1" />
                                             Kelola User
