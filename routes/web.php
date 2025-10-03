@@ -35,4 +35,5 @@ Route::prefix('assessments/{assessment}/managed-users')->group(function () {
     Route::get('/', [ManagedUserController::class, 'index'])->name('managed-users.index');
     Route::get('/create', [ManagedUserController::class, 'create'])->name('managed-users.create');
     Route::post('/', [ManagedUserController::class, 'store'])->name('managed-users.store');
+    Route::delete('/{managedUser}', [ManagedUserController::class, 'destroy'])->name('managed-users.destroy');
 });

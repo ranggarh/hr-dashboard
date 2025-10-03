@@ -46,4 +46,11 @@ class ManagedUserController extends Controller
 
         return redirect()->route('managed-users.index', $assessment)->with('success', 'User berhasil ditambahkan ke assessment.');
     }
+
+    // Metode lain seperti edit, update, destroy bisa ditambahkan sesuai kebutuhan
+    public function destroy(Assessment $assessment, ManagedUser $managedUser)
+    {
+        $managedUser->delete();
+        return redirect()->route('managed-users.index', $assessment)->with('success', 'User berhasil dihapus dari assessment.');
+    }
 }

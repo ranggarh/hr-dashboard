@@ -9,13 +9,26 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
         </a>
-        <h1 class="text-2xl font-bold">Kelola Users untuk assessment: {{ $assessment->title ?? 'assessment' }}</h1>
+        <h1 class="text-2xl font-bold">Kelola Users untuk {{ $assessment->title ?? 'assessment' }}</h1>
         </div>
-        <!-- Tombol trigger modal -->
-        <button onclick="openUserModal()"
-            class="mb-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Tambah User
-        </button>
+        <div class="mb-4 flex justify-between">
+            <div class="relative w-full max-w-md">
+                <input type="text" placeholder="Cari Jobseeker..."
+                    class="w-full max-w-md px-4 py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <button onclick="openUserModal()"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span>Tambah User</span>
+            </button>
+        </div>
         @if (session('success'))
             <div class="mb-4 text-green-600">{{ session('success') }}</div>
         @endif
@@ -26,6 +39,7 @@
                         <th class="py-2 px-4 border-b">Nama</th>
                         <th class="py-2 px-4 border-b">Email</th>
                         <th class="py-2 px-4 border-b">Nomor HP</th>
+                        <th class="py-2 px-4 border-b">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +48,15 @@
                             <td class="py-2 px-4 border-b">{{ $mu->user->name }}</td>
                             <td class="py-2 px-4 border-b">{{ $mu->user->email }}</td>
                             <td class="py-2 px-4 border-b">{{ $mu->user->phone }}</td>
+                            <td class="py-2 px-4 border-b">
+                                <form method="POST" action="{{ route('managed-users.destroy', [$assessment, $mu]) }}" onsubmit="return confirm('Yakin ingin menghapus user ini dari assessment?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline py-2 px-4 ">
+                                        <x-lucide-trash-2 class="w-5 h-5 inline " />
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
