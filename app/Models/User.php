@@ -47,4 +47,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Check if user is HR
+     *
+     * @return bool
+     */
+    public function isHR()
+    {
+        return $this->role === 'HR';
+    }
+
+    /**
+     * Check if user is Jobseeker
+     *
+     * @return bool
+     */
+    public function isJobseeker()
+    {
+        return $this->role === 'Jobseeker';
+    }
 }

@@ -11,12 +11,9 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        // Jika sudah login, redirect ke dashboard sesuai role
         if (Auth::check()) {
-            if (Auth::user()->role === 'HR') {
-                return redirect()->route('dashboard');
-            } else {
-                Auth::logout();
-            }
+            return $this->redirectBasedOnRole();
         }
         return view('auth.login');
     }
@@ -27,30 +24,24 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            if (Auth::user()->role === 'HR') {
-                return redirect()->intended('dashboard');
-            } else {
-                Auth::logout();
-                return redirect()->route('login')->withErrors([
-                    'email' => 'Akses hanya untuk HR.',
-                ]);
-            }
+            
+            // Redirect berdasarkan role
+            return $this->redirectBasedOnRole();
         }
+
         return back()->withErrors([
             'email' => 'Email atau password salah.',
-        ]);
+        ])->onlyInput('email');
     }
 
     public function showRegister()
     {
+        // Jika sudah login, redirect ke dashboard sesuai role
         if (Auth::check()) {
-            if (Auth::user()->role === 'HR') {
-                return redirect()->route('dashboard');
-            } else {
-                Auth::logout();
-            }
+            return $this->redirectBasedOnRole();
         }
         return view('auth.register');
     }
@@ -61,25 +52,23 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:8',
-            'phone' => 'required',
+            'phone' => 'required|string|max:20',
             'role' => 'required|in:HR,Jobseeker',
         ]);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'role' => $request->role,
-            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'password' => Hash::make($request->password),
         ]);
+
+        // Login otomatis setelah register
         Auth::login($user);
-        if ($user->role === 'HR') {
-            return redirect('dashboard');
-        } else {
-            Auth::logout();
-            return redirect()->route('login')->withErrors([
-                'email' => 'Akun berhasil dibuat, tapi hanya HR yang bisa login.',
-            ]);
-        }
+
+        // Redirect berdasarkan role
+        return $this->redirectBasedOnRole();
     }
 
     public function logout(Request $request)
@@ -87,6 +76,29 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        
+        return redirect()->route('login')->with('success', 'Anda berhasil logout.');
+    }
+
+    /**
+     * Redirect user based on their role
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    private function redirectBasedOnRole()
+    {
+        $user = Auth::user();
+
+        if ($user->role === 'HR') {
+            return redirect()->route('dashboard');
+        } elseif ($user->role === 'Jobseeker') {
+            return redirect()->route('jobseeker.dashboard');
+        }
+
+        // Fallback jika role tidak dikenali
+        Auth::logout();
+        return redirect()->route('login')->withErrors([
+            'email' => 'Role tidak valid.',
+        ]);
     }
 }
