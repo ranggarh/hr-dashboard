@@ -3,7 +3,7 @@
 @section('title', 'Assessments')
 
 @section('content')
-    <div class="flex-1 p-6">
+    <div class="flex-1 p-6 bg-blue-50 min-h-screen">
         <!-- Header -->
         <div class=" items-center mb-4">
             <div>
@@ -36,8 +36,7 @@
         @if (count($assessments) > 0)
             <div class="space-y-4">
                 @foreach ($assessments as $assessment)
-                    <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow cursor-pointer"
-                        onclick="window.location.href='{{ route('assessments.show', $assessment) }}'">
+                    <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between">
                             <!-- Left Side - Icon and Content -->
                             <div class="flex items-center space-x-4">

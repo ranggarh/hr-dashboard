@@ -2,7 +2,7 @@
 @section('title', 'Kelola Users')
 
 @section('content')
-    <div class="container mx-auto py-8 px-8">
+    <div class="container mx-auto py-8 px-8 bg-blue-50 min-h-screen">
         <div class="mb-8 flex items-center space-x-4">
         <a href="{{ route('assessments.index') }}" class="text-gray-400 hover:text-gray-600 transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
