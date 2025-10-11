@@ -40,7 +40,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/jobseekers', [JobseekerController::class, 'index'])->name('jobseekers.index');
     Route::get('/jobseekers/{jobseeker}', [JobseekerController::class, 'show'])->name('jobseekers.show');
     Route::delete('/jobseekers/{jobseeker}', [JobseekerController::class, 'destroy'])->name('jobseekers.destroy');
-    
+    Route::get('/jobseekers/{jobseeker}/assessments', [JobseekerController::class, 'assessments'])->name('jobseeker.assessment');
+    Route::get('/jobseekers/{jobseeker}/profile', [JobseekerController::class, 'profile'])->name('jobseeker.profile');
+Route::get('/jobseeker/dashboard', [JobseekerController::class, 'dashboard'])->name('jobseeker.dashboard');
     // Logout (harus login dulu untuk logout)
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
